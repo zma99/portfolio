@@ -20,8 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
   links.forEach(link => {
       link.addEventListener('click', async (e) => {
           e.preventDefault();
-          const url = link.getAttribute('href');
-          console.log(url);
+          let url = link.getAttribute('href');
+          
+          // Aseguramos que la URL tenga la barra inicial
+          if (!url.startsWith('/')) {
+              url = `/${url}`;
+          }
+
+          console.log(url); // Verifica la URL completa
 
           try {
               const res = await fetch(url);
