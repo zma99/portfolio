@@ -2,24 +2,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const links = document.querySelectorAll('[data-link]');
   const main = document.querySelector('main.container');
   
-  // Esta función se llama para cargar dinámicamente el contenido
-  const loadContent = (section) => {
-    switch (section) {
-      case 'home':
-        main.innerHTML = `<h1>Home</h1><p>Bienvenido a la página de inicio.</p>`;
-        break;
-      case 'projects':
-        main.innerHTML = `<h1>Proyectos</h1><p>Aquí irían los proyectos.</p>`;
-        break;
-      case 'about':
-        main.innerHTML = `<h1>Sobre mí</h1><p>Información sobre mí.</p>`;
-        break;
-      case 'contact':
-        main.innerHTML = `<h1>Contacto</h1><p>Formulario de contacto.</p>`;
-        break;
-      default:
-        main.innerHTML = `<h1>Bienvenido</h1><p>Selecciona una sección.</p>`;
-        break;
+  // Esta función carga el contenido del archivo HTML correspondiente
+  const loadContent = async (section) => {
+    try {
+      const res = await fetch(`${section}.html`);
+      if (!res.ok) throw new Error(`Error al cargar ${section}.html`);
+      const html = await res.text();
+
+      // Coloca el contenido del archivo HTML en el contenedor 'main'
+      const temp = document.createElement('div');
+      temp.innerHTML = html;
+      const nuevoContenido = temp.querySelector('main') || temp;
+      main.innerHTML = nuevoContenido.innerHTML;
+    } catch (error) {
+      main.innerHTML = `<p>Error al cargar la sección.</p>`;
+      console.error(error);
     }
   };
 
