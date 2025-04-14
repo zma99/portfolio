@@ -20,16 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
   links.forEach(link => {
       link.addEventListener('click', async (e) => {
           e.preventDefault();
-          let url = link.getAttribute('href');
-          
-          // Aseguramos que la URL tenga la barra inicial
-          if (!url.startsWith('/')) {
-              url = `/${url}`;
-          }
-
-          console.log(url); // Verifica la URL completa
+          const url = link.getAttribute('href');
+          console.log(url);
 
           try {
+              // Realiza la solicitud de la página correspondiente
               const res = await fetch(url);
               if (!res.ok) throw new Error(`Error al cargar ${url}`);
               const html = await res.text();
@@ -40,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
               const nuevoContenido = temp.querySelector('main') || temp;
               main.innerHTML = nuevoContenido.innerHTML;
 
+              // Actualiza la URL sin recargar la página
               history.pushState({}, '', url);
               setActiveLink(url);  // Aplica la clase 'active' al enlace actual
           } catch (error) {
