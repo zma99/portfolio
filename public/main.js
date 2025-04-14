@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('click', async (e) => {
           e.preventDefault();
           const url = link.getAttribute('href');
+          console.log(url);
 
           try {
               const res = await fetch(url);
